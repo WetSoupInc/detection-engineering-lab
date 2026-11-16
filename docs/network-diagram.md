@@ -15,11 +15,11 @@ flowchart LR
 ```
 
 ## Overview
-[1-2 sentences: what the lab network is and what it's for]
+The network lab is set up so the devices can interact with each other without connecting to the network or my home LAN. For this lab to work there needs to me multiple vms and so they will all run using NAT.
 
 ## Why the network is segmented
 - **Containment:** Atomic Red Team runs real attack techniques. The lab sits on its own subnet so nothing can reach my home network or personal devices.
-- **Controlled egress:** The lab can only reach the internet for [updates only]. This keeps attack activity from leaving the lab.
+- **Controlled egress:** The lab can only reach the internet for updates only. This keeps attack activity from leaving the lab.
 - **Realistic design:** Production environments separate networks by function, and this mirrors that.
 - **Clean data:** Only lab traffic shows up in my logs, so detections aren't polluted by home devices.
 
