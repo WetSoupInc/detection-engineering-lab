@@ -42,8 +42,8 @@ flowchart LR
 
 ### Design decisions
 
-- **Why VMware Workstation:** TODO
-- **Why an isolated network:** TODO (attacker tooling and malware-like behavior stay off the home LAN)
+- **Why VMware Workstation:** I am personally a fan of VMware. It is the Hypervisor where I host all of my Virtual Machines.
+- **Why an isolated network:** I would like for all of the malware behavior to be off of the home LAN. I also don't want it to effect anything other than just the setup virtual machines
 - **Why Sysmon + Windows Security logs:** TODO (which config, and why)
 - **Why pfSense / why not:** TODO
 
