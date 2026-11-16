@@ -51,6 +51,7 @@ flowchart LR
 | DC01 | Windows Server 2022 | 2 / 4 GB | 10.0.10.10 (static) | AD DS, DNS | Planned |
 | WIN-CLIENT | Windows 10/11 | 2 / 4 GB | DHCP | Domain-joined target, Atomic Red Team | Planned |
 | SPLUNK | Ubuntu Server | 4 / 8 GB | 10.0.10.20 (static) | Splunk Enterprise | Planned |
+
 **Host:** Desktop, VMware Workstation, 32 GB RAM
 
 ## Design decisions
