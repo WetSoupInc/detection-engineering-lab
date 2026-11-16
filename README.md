@@ -47,10 +47,10 @@ flowchart LR
 
 | VM | OS | vCPU / RAM | IP | Role | Status |
 |---|---|---|---|---|---|
-| pfSense | pfSense | 1 / 1-2 GB | 10.0.10.1 | Gateway, controlled egress | Planned |
-| DC01 | Windows Server 2022 | 2 / 4 GB | 10.0.10.10 (static) | AD DS, DNS | Planned |
-| WIN-CLIENT | Windows 10/11 | 2 / 4 GB | DHCP | Domain-joined target, Atomic Red Team | Planned |
-| SPLUNK | Ubuntu Server | 4 / 8 GB | 10.0.10.20 (static) | Splunk Enterprise | Planned |
+| pfSense | pfSense | 1 GB | 10.0.10.1 | Gateway, controlled egress | Planned |
+| DC01 | Windows Server 2022 | 4 GB | 10.0.10.10 (static) | AD DS, DNS | Planned |
+| WIN-CLIENT | Windows 10/11 | 4 GB | DHCP | Domain-joined target, Atomic Red Team | Planned |
+| SPLUNK | Ubuntu Server |  8 GB | 10.0.10.20 (static) | Splunk Enterprise | Planned |
 
 **Host:** Desktop, VMware Workstation, 32 GB RAM
 
