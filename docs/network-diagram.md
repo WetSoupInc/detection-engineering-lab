@@ -1,3 +1,4 @@
+# Network Design
 
 ```mermaid
 flowchart LR
@@ -12,9 +13,6 @@ flowchart LR
   GW["pfSense"] -.->|updates only| NET((Internet))
   GW --- Lab
 ```
-# Network Design
-
-![diagram goes here, or paste the mermaid block]
 
 ## Overview
 [1-2 sentences: what the lab network is and what it's for]
