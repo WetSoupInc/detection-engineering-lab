@@ -25,7 +25,7 @@ flowchart LR
     DC -->|9997| SP
     CL -->|9997| SP
   end
-  GW["pfSense (optional)"] -.->|updates only| NET((Internet))
+  GW["pfSense"] -.->|updates only| NET((Internet))
   GW --- Lab
 ```
 
@@ -36,7 +36,7 @@ flowchart LR
 | DC01 | Windows Server 2022 | 2 / 4 GB | 10.0.10.10 (static) | AD DS, DNS |
 | WIN-CLIENT | Windows 10/11 | 2 / 4 GB | DHCP | Domain-joined target, Atomic Red Team |
 | SPLUNK | Ubuntu Server | 4 / 8 GB | 10.0.10.20 (static) | Splunk Enterprise, indexer and search |
-| pfSense (optional) | pfSense | 1 / 1-2 GB | 10.0.10.1 | Gateway, controlled egress |
+| pfSense | pfSense | 1 / 1-2 GB | 10.0.10.1 | Gateway, controlled egress |
 
 **Host:** Desktop, VMware Workstation, XX GB RAM
 
