@@ -8,6 +8,10 @@ An isolated Active Directory lab where I generate adversary behavior with Atomic
 
 This project is a small, self-contained enterprise environment built to practice detection engineering. A domain controller, a domain-joined Windows client, and a Splunk server run on an isolated virtual network behind a pfSense gateway. I run simulated attacks against the client, write detections for the activity they produce, and use PowerShell to check automatically that each detection fires.
 
+## Tools
+
+Powershell, Active Directory, Atomic Red Team, Splunk, VMware, Pfsense.
+
 ### How it works
 
 1. **Attack:** Atomic Red Team runs a technique on the Windows client
