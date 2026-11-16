@@ -1,28 +1,26 @@
-# DC01: Domain Controller
+# SPLUNK: Log Collection and Search
 
 ## Overview
-[Windows Server, Active Directory and DNS for the lab domain]
+[Ubuntu server running Splunk [Enterprise/Free], the central place where all logs land]
 
 ## Why it's needed
-[Gives the lab a realistic domain environment: authentication, users, and the Kerberos/LDAP traffic that attacks often target and detections watch]
+[Collects Sysmon and Windows event logs from both machines so I can write and test detections against real attack data]
 
 ## Specs
 | | |
 |---|---|
-| OS | [Windows Server version] |
+| OS | Ubuntu [version] |
 | CPU | [x] vCPU |
 | RAM | [x] GB |
 | Disk | [x] GB |
-| IP | 10.0.10.10 (static) |
+| IP | 10.0.10.20 (static) |
 
 ## Setup
-[Domain name, promotion to DC, test users or OUs you created and why]
+[Install, receiving port 9997, index you created, anything you configured on purpose]
 
-![Domain promotion](images/dc01-domain-promotion.png)
+![Receiving port enabled](images/splunk-receiver-9997.png)
 
-[Sysmon and Universal Forwarder install]
-
-![Forwarder sending to Splunk](images/dc01-forwarder.png)
+![Logs arriving](images/splunk-sysmon-ingest.png)
 
 ## Notes
 [Problems, lessons]
