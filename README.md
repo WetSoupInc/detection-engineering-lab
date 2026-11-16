@@ -25,8 +25,6 @@ This project is a small, self-contained enterprise environment built to practice
 
 ## Architecture
 
-![Network diagram](docs/network-diagram.png)
-
 ```mermaid
 flowchart LR
   subgraph Lab["Isolated lab network 10.0.10.0/24"]
