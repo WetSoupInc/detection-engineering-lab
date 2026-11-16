@@ -1,159 +1,94 @@
 # Detection Engineering Lab
 
-> One-line summary: an isolated Active Directory lab where I generate adversary behavior with Atomic Red Team, detect it in Splunk, and automate the test-and-validate loop with PowerShell.
+An isolated Active Directory lab where I generate adversary behavior with Atomic Red Team, detect it in Splunk, and automate the test-and-validate loop with PowerShell.
 
 **Status:** In progress | **Last updated:** 2026-11-16
+
+## Overview
+
+This project is a small, self-contained enterprise environment built to practice detection engineering. A domain controller, a domain-joined Windows client, and a Splunk server run on an isolated virtual network behind a pfSense gateway. I run simulated attacks against the client, write detections for the activity they produce, and use PowerShell to check automatically that each detection fires.
+
+### How it works
+
+1. **Attack:** Atomic Red Team runs a technique on the Windows client
+2. **Log:** Sysmon and Windows event logs record what happened
+3. **Ship:** The Splunk Universal Forwarder sends the logs to Splunk (port 9997)
+4. **Detect:** A Splunk search (the detection) looks for the behavior, mapped to MITRE ATT&CK
+5. **Validate:** A PowerShell script runs the test, queries Splunk, and reports whether the detection fired
 
 ## Goals
 
 - Build a repeatable lab: attack, log, detect, validate
-- Write detections mapped to MITRE ATT&CK, with the SPL and the test that proves each one fires
-- Automate the loop with PowerShell (run test, wait, query Splunk, report pass/fail)
-- Document what broke and why (see [Troubleshooting log](#troubleshooting-log))
+- Write detections mapped to MITRE ATT&CK, each with the SPL and the test that proves it fires
+- Automate the test-and-check loop with PowerShell
+- Document what broke and why, so the lab is reproducible
 
 ## Architecture
 
-#![Network diagram]
+![Network diagram](docs/network-diagram.png)
 
 ```mermaid
 flowchart LR
+  NET((Internet)) -.->|updates only| GW
   subgraph Lab["Isolated lab network 10.0.10.0/24"]
+    GW["pfSense<br/>10.0.10.1"]
     DC["DC01<br/>10.0.10.10<br/>AD, DNS, Sysmon, UF"]
     CL["WIN-CLIENT<br/>DHCP<br/>Sysmon, UF, Atomic Red Team"]
     SP["SPLUNK<br/>10.0.10.20<br/>Ubuntu"]
+    GW --- DC
+    GW --- CL
+    GW --- SP
     CL <-->|DNS, Kerberos, LDAP| DC
     DC -->|9997| SP
     CL -->|9997| SP
   end
-  GW["pfSense"] -.->|updates only| NET((Internet))
-  GW --- Lab
 ```
 
 ### Components
 
-| VM | OS | vCPU / RAM | IP | Role |
-|---|---|---|---|---|
-| DC01 | Windows Server 2022 | 2 / 4 GB | 10.0.10.10 (static) | AD DS, DNS |
-| WIN-CLIENT | Windows 10/11 | 2 / 4 GB | DHCP | Domain-joined target, Atomic Red Team |
-| SPLUNK | Ubuntu Server | 4 / 8 GB | 10.0.10.20 (static) | Splunk Enterprise, indexer and search |
-| pfSense | pfSense | 1 / 1-2 GB | 10.0.10.1 | Gateway, controlled egress |
+| VM | OS | vCPU / RAM | IP | Role | Status |
+|---|---|---|---|---|---|
+| pfSense | pfSense | 1 / 1-2 GB | 10.0.10.1 | Gateway, controlled egress | Planned |
+| DC01 | Windows Server 2022 | 2 / 4 GB | 10.0.10.10 (static) | AD DS, DNS | Planned |
+| WIN-CLIENT | Windows 10/11 | 2 / 4 GB | DHCP | Domain-joined target, Atomic Red Team | Planned |
+| SPLUNK | Ubuntu Server | 4 / 8 GB | 10.0.10.20 (static) | Splunk Enterprise | Planned |
 
-**Host:** Desktop, VMware Workstation, XX GB RAM
+**Host:** Desktop, VMware Workstation, 32 GB RAM
 
-### Design decisions
+## Design decisions
 
-- **Why VMware Workstation:** I am personally a fan of VMware. It is the Hypervisor where I host all of my Virtual Machines.
-- **Why an isolated network:** I would like for all of the malware behavior to be off of the home LAN. I also don't want it to effect anything other than just the setup virtual machines
+- **Why VMware Workstation:** It's the hypervisor I already use and know well for hosting my VMs.
+- **Why an isolated network:** I want all malware-like behavior kept off my home LAN and from affecting anything outside the lab VMs.
+- **Why pfSense:** It adds another layer to the environment and gives me controlled egress. I can allow updates when I need them and block outbound traffic the rest of the time, so nothing malicious can reach out.
 - **Why Sysmon + Windows Security logs:** TODO (which config, and why)
-- **Why pfSense / why not:** TODO
 
 ## Safety and isolation
 
 - No bridged adapters. Lab traffic stays on the host-only network
-- Internet access only through the gateway or a temporary NAT adapter, off during attack tests
+- Internet access only through pfSense, and only while updating, never during attack tests
 - Shared folders, clipboard, and drag-and-drop disabled on all VMs
 - Clean-baseline snapshots taken before any attack, and before touching the DC
-- Defender exclusions applied only to the lab client's test folder (documented below)
+- Defender exclusions applied only to the lab client's test folder (documented when added)
 
-## Build log
+## Progress
 
-Screenshots live in `docs/screenshots/`.
+| Milestone | Status |
+|---|---|
+| Network, pfSense, and DC up | Planned |
+| Client domain-joined | Planned |
+| Splunk receiving logs from both Windows hosts | Planned |
+| First detection validated against an Atomic test | Planned |
+| PowerShell automation of the test-and-check loop | Planned |
 
-1. **Domain controller** — static IP, AD DS, DNS, OUs, test users, groups. *Screenshot / notes:* TODO
-2. **Windows client** — DNS pointed at DC, domain join, domain login. TODO
-3. **Splunk server** — static IP, receiving on 9997, indexes created. TODO
-4. **Sysmon and Universal Forwarders** — config used, inputs.conf, target index. TODO
-5. **Verification** — searches confirming Security and Sysmon events arrive from both hosts. TODO
-6. **Baseline snapshots** — names and dates. TODO
-
-## Log ingestion
-
-| Source | Collected via | Index | Sourcetype | Verified (date) |
-|---|---|---|---|---|
-| Windows Security | UF | TODO | TODO | |
-| Sysmon | UF | TODO | TODO | |
-| PowerShell logging (4104) | UF | TODO | TODO | |
-
-Verification search used:
-
-```spl
-index=* | stats count by host, sourcetype
-```
-
-## Detections
-
-Each detection has its own file in `detections/`. Template:
-
-```
-Name:
-ATT&CK technique:
-Atomic test (GUID):
-Log source / event IDs:
-Logic (SPL):
-Expected result:
-Observed result:
-False positives / tuning notes:
-Status: draft | validated | tuned
-```
-
-| # | Technique | Atomic test | Detection | Status |
-|---|---|---|---|---|
-| 1 | T1059.001 PowerShell | TODO | TODO | draft |
-| 2 | TODO | TODO | TODO | |
-| 3 | TODO | TODO | TODO | |
-
-## Automation (PowerShell)
-
-Goal: one script runs an Atomic test, waits for ingestion, queries Splunk, and reports whether the expected detection fired.
-
-```
-scripts/
-  Invoke-DetectionTest.ps1   # run atomic -> wait -> query Splunk -> pass/fail
-  Get-SplunkResults.ps1      # wrapper around the Splunk REST API
-  Reset-Lab.ps1              # cleanup / revert helper
-```
-
-Planned flow:
-
-1. Run `Invoke-AtomicTest` for a technique on the client
-2. Wait for forwarder latency
-3. Query Splunk for the detection logic over the test window
-4. Output a result record (technique, test, fired yes/no, time to detect)
-5. Write results to `results/` (CSV or JSON)
-
-## Results
-
-| Technique | Test | Detected? | Time to detect | Notes |
-|---|---|---|---|---|
-| | | | | |
-
-Coverage summary: TODO (techniques tested vs. detected, gaps found)
-
-## Troubleshooting log
-
-What broke and why. Short entries, newest first.
-
-| Date | Symptom | Root cause | Fix |
-|---|---|---|---|
-| | | | |
-
-## Lessons learned
-
-- TODO
-
-## Next steps
-
-- TODO
+Detailed build notes, detections, results, and the troubleshooting log are kept in `docs/`, `detections/`, and `results/` as they are written.
 
 ## Repository layout
 
 ```
 .
 ├── README.md
-├── docs/
-│   ├── network-diagram.png
-│   └── screenshots/
-├── configs/        # sysmon config, inputs.conf, etc.
+├── docs/           # network diagram, screenshots, build notes
+├── configs/        # Sysmon config, inputs.conf, etc.
 ├── detections/     # one file per detection
 ├── scripts/        # PowerShell automation
 └── results/
