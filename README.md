@@ -79,7 +79,7 @@ flowchart LR
 | First detection validated against an Atomic test | Planned |
 | PowerShell automation of the test-and-check loop | Planned |
 
-Detailed build notes, detections, results, and the troubleshooting log are kept in `docs/`, `detections/`, and `results/` as they are written.
+Detailed build notes, detections, results, and the troubleshooting log are kept in `docs/`, `detections/`, and `attack-runs/` as they are written.
 
 ## Repository layout
 
