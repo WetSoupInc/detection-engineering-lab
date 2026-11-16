@@ -2,7 +2,7 @@
 
 > One-line summary: an isolated Active Directory lab where I generate adversary behavior with Atomic Red Team, detect it in Splunk, and automate the test-and-validate loop with PowerShell.
 
-**Status:** In progress | **Last updated:** YYYY-MM-DD
+**Status:** In progress | **Last updated:** 2026-11-16
 
 ## Goals
 
