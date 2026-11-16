@@ -13,7 +13,7 @@
 
 ## Architecture
 
-#![Network diagram](docs/network-diagram.png)
+#![Network diagram]
 
 ```mermaid
 flowchart LR
