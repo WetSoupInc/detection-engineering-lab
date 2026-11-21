@@ -10,9 +10,9 @@
 | | |
 |---|---|
 | OS | pfSense CE [version] |
-| CPU | [x] vCPU |
-| RAM | [x] GB |
-| Disk | [x] GB |
+| CPU | [1] vCPU |
+| RAM | [1] GB |
+| Disk | [20] GB |
 | Adapters | WAN: [type], LAN: [type] |
 
 ## Setup
