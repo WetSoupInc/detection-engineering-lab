@@ -23,9 +23,10 @@ Record your decisions here:
 
 ## 0. VMware network (once)
 
-- [ ] Virtual Network Editor: add `VMnet2`, **host-only**, subnet `10.0.10.0/24`, **DHCP off**
-- [ ] Decide how the host reaches the lab. VMware's host adapter may grab `.1` (pfSense's address). Either set the host adapter to a static `10.0.10.2`, or untick "Connect a host virtual adapter" and manage things from inside the VMs
-- [ ] For every VM: remove shared folders, disable clipboard and drag-and-drop, install VMware Tools (or `open-vm-tools` on Ubuntu)
+- [x] Virtual Network Editor: add `VMnet2`, **host-only**, subnet `10.0.10.0/24`, **DHCP off**
+- [x] Decide how the host reaches the lab. VMware's host adapter may grab `.1` (pfSense's address). Either set the host adapter to a static `10.0.10.2`, or untick "Connect a host virtual adapter" and manage things from inside the VMs
+- [ ] For every VM: remove shared folders, disable clipboard and drag-and-drop
+- [ ] install VMware Tools (or `open-vm-tools` on Ubuntu)
 
 ## 1. pfSense (gateway and firewall)
 
