@@ -30,7 +30,7 @@ Record your decisions here:
 
 ## 1. pfSense (gateway and firewall)
 
-- [ ] New VM, guest OS type FreeBSD 64-bit, 1 vCPU, 1 GB RAM, 16-20 GB disk
+- [x] New VM, guest OS type FreeBSD 14 64-bit, 1 vCPU, 1 GB RAM, 16-20 GB disk
 - [ ] Add a second network adapter. NIC 1 = NAT (WAN), NIC 2 = `VMnet2` (LAN)
 - [ ] Install pfSense. When assigning interfaces, check the MAC addresses so WAN and LAN aren't swapped
 - [ ] LAN: `10.0.10.1/24`. **Turn LAN DHCP off** (the DC does DHCP)
