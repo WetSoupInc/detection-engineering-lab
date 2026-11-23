@@ -40,7 +40,7 @@ Record your decisions here:
 - [ ] WAN: untick "Block private networks" (VMware's NAT subnet is private)
 - [ ] Firewall: allow LAN-out at first. Later, replace it with a rule you toggle for updates only, and block outbound the rest of the time
 - [x] **Test:** the pfSense web GUI loads from the host at `https://172.16.10.1`
-- [ ] **Test:** console option 7 (Ping host) to `8.8.8.8` replies, and Status → Interfaces shows a WAN address from VMware NAT
+- [x] **Test:** console option 7 (Ping host) to `8.8.8.8` replies, and Status → Interfaces shows a WAN address from VMware NAT
 - [x] Snapshot: `pfsense-baseline`
 
 ## 2. DC01 (Windows Server 2022)
