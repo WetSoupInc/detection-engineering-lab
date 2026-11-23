@@ -37,7 +37,7 @@ Record your decisions here:
 - [x] Add a second network adapter. NIC 1 = NAT (WAN), NIC 2 = `VMnet2` (LAN)
 - [x] Install pfSense CE with the Netgate Installer (UFS filesystem). When assigning interfaces, check the MAC addresses so WAN and LAN aren't swapped
 - [x] LAN: `172.16.10.1/24`. **Turn LAN DHCP off** (the DC does DHCP)
-- [ ] WAN: untick "Block private networks" (VMware's NAT subnet is private)
+- [x] WAN: untick "Block private networks" (VMware's NAT subnet is private)
 - [ ] Firewall: allow LAN-out at first. Later, replace it with a rule you toggle for updates only, and block outbound the rest of the time
 - [x] **Test:** the pfSense web GUI loads from the host at `https://172.16.10.1`
 - [x] **Test:** console option 7 (Ping host) to `8.8.8.8` replies, and Status → Interfaces shows a WAN address from VMware NAT
@@ -45,9 +45,9 @@ Record your decisions here:
 
 ## 2. DC01 (Windows Server 2022)
 
-- [ ] New VM, 2 vCPU, 4 GB RAM, 60 GB disk, adapter `VMnet2`
-- [ ] Isolation settings before first boot (shared folders off, drag-and-drop and copy-paste off)
-- [ ] Install Server 2022 Standard with Desktop Experience. Rename to `DC01`
+- [x] New VM, 2 vCPU, 4 GB RAM, 60 GB disk, adapter `VMnet2`
+- [x] Isolation settings before first boot (shared folders off, drag-and-drop and copy-paste off)
+- [x] Install Server 2022 Standard with Desktop Experience. Rename to `DC01`
 - [ ] Static IP `172.16.10.10/24`, gateway `172.16.10.1`, DNS `172.16.10.10` (itself)
 - [ ] Install AD DS + DNS, promote to a new forest, create OUs, groups, and test users (script this with PowerShell and a CSV)
 - [ ] Install DHCP: scope `172.16.10.100-200`, router option `172.16.10.1`, DNS option `172.16.10.10`, then authorize it
