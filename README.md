@@ -2,7 +2,7 @@
 
 An isolated Active Directory lab where I generate adversary behavior with Atomic Red Team, detect it in Splunk, and automate the test-and-validate loop with PowerShell.
 
-**Status:** In progress | **Last updated:** 2026-11-16
+**Status:** In progress | **Last updated:** 11-22-2026
 
 ## Overview
 
@@ -31,26 +31,31 @@ Powershell, Active Directory, Atomic Red Team, Splunk, VMware, Pfsense.
 
 ```mermaid
 flowchart LR
-  subgraph Lab["Isolated lab network 10.0.10.0/24"]
-    DC["DC01<br/>10.0.10.10<br/>AD, DNS, Sysmon, UF"]
+  NET((Internet)) -.->|controlled egress| GW
+  subgraph Lab["Isolated lab network 172.16.10.0/24"]
+    GW["pfSense<br/>172.16.10.1"]
+    DC["DC01<br/>172.16.10.10<br/>AD, DNS, DHCP, Sysmon, UF"]
     CL["WIN-CLIENT<br/>DHCP<br/>Sysmon, UF, Atomic Red Team"]
-    SP["SPLUNK<br/>10.0.10.20<br/>Ubuntu"]
+    SP["SPLUNK<br/>172.16.10.20<br/>Ubuntu"]
+    GW --- DC
+    GW --- CL
+    GW --- SP
     CL <-->|DNS, Kerberos, LDAP| DC
     DC -->|9997| SP
     CL -->|9997| SP
   end
-  GW["pfSense"] -.->|updates only| NET((Internet))
-  GW --- Lab
 ```
 
 ### Components
 
 | VM | OS | vCPU / RAM | IP | Role | Status |
 |---|---|---|---|---|---|
-| pfSense | pfSense | 1 / 1 GB | 10.0.10.1 | Gateway, controlled egress | Planned |
-| DC01 | Windows Server 2022 | 2 / 4 GB | 10.0.10.10 (static) | AD DS, DNS | Planned |
-| WIN-CLIENT | Windows 10/11 | 2 / 4 GB | DHCP | Domain-joined target, Atomic Red Team | Planned |
-| SPLUNK | Ubuntu Server | 4 / 8 GB | 10.0.10.20 (static) | Splunk Enterprise | Planned |
+| pfSense | pfSense CE | 1 / 1 GB | 172.16.10.1 (LAN) | Gateway, controlled egress | Built |
+| DC01 | Windows Server 2022 | 2 / 4 GB | 172.16.10.10 (static) | AD DS, DNS, DHCP | Planned |
+| WIN-CLIENT | Windows 11 Enterprise (evaluation) | 2 / 4 GB | DHCP from DC01 | Domain-joined target, Atomic Red Team | Planned |
+| SPLUNK | Ubuntu Server 24.04 LTS | 4 / 8 GB | 172.16.10.20 (static) | Splunk Enterprise | Planned |
+
+The lab uses `172.16.10.0/24` rather than a `10.x` range because `10.x` addresses are common on campus networks and VPNs, and I wanted to avoid any chance of overlap.
 
 **Host:** Desktop, VMware Workstation, 32 GB RAM
 
